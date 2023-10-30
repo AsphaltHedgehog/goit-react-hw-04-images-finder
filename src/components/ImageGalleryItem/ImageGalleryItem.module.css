@@ -1,0 +1,17 @@
+.img {
+  object-fit: cover;
+  height: 250px;
+  width: 350px;
+
+  transition: transform 250ms ease-in-out;
+}
+
+.img:hover,
+.img:focus {
+  transform: scale(1.03);
+}
+
+.li {
+  /* height: 250px;
+  width: 350px; */
+}

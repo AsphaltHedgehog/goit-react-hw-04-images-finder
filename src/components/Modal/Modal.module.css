@@ -1,0 +1,27 @@
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+}
+
+.Modal {
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
+}
+
+.img {
+  /* max-width: 60%;
+  max-height: 60%; */
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Пример тени для изображения */
+  /* Дополнительные стили по вашему выбору */
+}
