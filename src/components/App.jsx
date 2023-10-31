@@ -40,7 +40,7 @@ function App() {
       setLoading(true);
       try {
         const { hits, totalHits } = await FetchQuery(searchQuery, page);
-        setResult([...queryResult, ...hits]);
+        setResult(prev => [...prev, ...hits]);
         setHits(totalHits)
       } catch (error) {
         console.error(error)
@@ -49,7 +49,7 @@ function App() {
       }
     }
     fetchData();
-  }, [ page ]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchQuery]); 
 
   const onSubmitHandler = (query) => {
 
