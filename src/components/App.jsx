@@ -31,25 +31,25 @@ function App() {
   const [isModal, setModal] = useState(false);
   const [modalImg, setModalImg] = useState('');
 
+
   useEffect(() => {
     if (page === 0) {
       return;
     };
-
     const fetchData = async () => {
-    setLoading(true);
-    try {
-      const { hits, totalHits } = await FetchQuery(searchQuery, page);
-      setResult([...queryResult, ...hits]);
-      setHits(totalHits)
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setLoading(false);
+      setLoading(true);
+      try {
+        const { hits, totalHits } = await FetchQuery(searchQuery, page);
+        setResult([...queryResult, ...hits]);
+        setHits(totalHits)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();
-  }, [page]);
+  }, [ page ]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const onSubmitHandler = (query) => {
 
