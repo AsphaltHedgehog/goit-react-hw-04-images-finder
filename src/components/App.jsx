@@ -49,7 +49,7 @@ function App() {
       }
     }
     fetchData();
-  }, [page]);
+  }, [page, queryResult, searchQuery]);
 
   const onSubmitHandler = (query) => {
 
