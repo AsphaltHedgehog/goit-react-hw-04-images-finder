@@ -16,7 +16,4 @@ const Spid = () => (<LineWave
           lastLineColor=""
   />)
 
-        
-
-
 export default Spid

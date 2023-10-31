@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
-// import ReactDOM from 'react-dom/client';
+import { useState, useEffect } from 'react';
 
 import css from './style/styles.module.css'
 
@@ -20,33 +19,9 @@ import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem.js'
 import Button from './Button/Button.js'
 
 
-// const initialState = {
-//   searchQuery: '',
-//   queryResult: [],
-//   page: 1,
-//   totalHits: null,
-//   isLoading: false,
-//   isModal: false,
-//   modalImg: ''
-// };
-
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case 'result':
-//       return {queryResult: state.queryResult};
-//     case '':
-//       return 
-//     case '':
-//       return initialState;
-//     default:
-//       return state;
-//   };
-// };
-
 //==========================================================
 
 function App() {
-  // const isFirstRender = useRef(true);
 
   const [searchQuery, setQuery] = useState('');
   const [queryResult, setResult] = useState([]);
