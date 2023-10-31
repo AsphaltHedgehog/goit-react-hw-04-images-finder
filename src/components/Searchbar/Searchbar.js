@@ -1,60 +1,55 @@
-import React,{ Component } from "react";
+import { useState } from "react";
 
 import PropTypes from "prop-types";
 
 import css from './Searchbar.module.css'
 
-class Searchbar extends Component {
-  state = {
-    query: '',
+function Searchbar({onSubmit}) {
+  const [query, setQuery] = useState('')
+
+  const handlerInputChange = inputData => {
+    setQuery(inputData);
   };
 
-  handlerInputChange = inputData => {
-    this.setState({ query: inputData });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
     
-    if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       alert('Введи что-то');
-      this.reset();
+      reset();
       return;
-      
     };
 
-    this.props.onSubmit(this.state.query);
+    onSubmit(query);
   };
 
-  reset = () => {
-    this.setState({query: '',})
-  }
-
-
-  render() {
-    return (
-      <div className={css.wrapper}>
-        <form onSubmit={this.handleSubmit} className={css.form}>
-          <button type='submit' className={css.button}><span className="btn-label">Search</span></button>
-
-          <input
-            type='search'
-            value={this.state.query}
-            onChange={e => this.handlerInputChange(e.target.value)}
-            className={css.input}
-            autoFocus
-            placeholder="photo"
-          >
-          </input>
-        </form>
-      </div>
-    );
+  const reset = () => {
+    setQuery('');
   };
+
+
+  return (
+    <div className={css.wrapper}>
+      <form onSubmit={handleSubmit} className={css.form}>
+        <button type='submit' className={css.button}><span className="btn-label">Search</span></button>
+
+        <input
+          type='search'
+          value={query}
+          onChange={e => handlerInputChange(e.target.value)}
+          className={css.input}
+          autoFocus
+          placeholder="photo"
+        >
+        </input>
+      </form>
+    </div>
+  );
 };
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func,
-}
+};
 
 
 export default Searchbar;

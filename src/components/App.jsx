@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import { useState, useEffect, useRef } from 'react';
 // import ReactDOM from 'react-dom/client';
 
 import css from './style/styles.module.css'
@@ -19,99 +19,118 @@ import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem.js'
 
 import Button from './Button/Button.js'
 
+
+// const initialState = {
+//   searchQuery: '',
+//   queryResult: [],
+//   page: 1,
+//   totalHits: null,
+//   isLoading: false,
+//   isModal: false,
+//   modalImg: ''
+// };
+
+// const reducer = (state, action) => {
+//   switch (action.type) {
+//     case 'result':
+//       return {queryResult: state.queryResult};
+//     case '':
+//       return 
+//     case '':
+//       return initialState;
+//     default:
+//       return state;
+//   };
+// };
+
 //==========================================================
 
-class App extends Component {
-  state = {
-    searchQuery: '',
-    queryResult: [],
-    page: 1,
-    totalHits: null,
-    isLoading: false,
-    isModal: false,
-    modalImg: ''
-  };
+function App() {
+  // const isFirstRender = useRef(true);
 
-  async componentDidUpdate(prevProps, prevState) {
-    console.log();
-    const { searchQuery, page } = this.state
-    if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
-      this.setState({isLoading: true})
-      try {
-        const { hits, totalHits } = await FetchQuery(searchQuery, page);
-        this.setState(prevState => ({
-          queryResult: [...prevState.queryResult, ...hits],
-          totalHits,
-        }));
-      } catch (error) { console.error(error) }
-      finally {
-        this.setState({isLoading: false})
-      };
+  const [searchQuery, setQuery] = useState('');
+  const [queryResult, setResult] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalHits, setHits] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  const [isModal, setModal] = useState(false);
+  const [modalImg, setModalImg] = useState('');
+
+  useEffect(() => {
+    if (page === 0) {
+      return;
+    };
+
+    const fetchData = async () => {
+    setLoading(true);
+    try {
+      const { hits, totalHits } = await FetchQuery(searchQuery, page);
+      setResult([...queryResult, ...hits]);
+      setHits(totalHits)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false);
+      }
     }
-  }
+    fetchData();
+  }, [page]);
 
-  onSubmitHandler = (query) => {
-    if (query === this.state.searchQuery) {
+  const onSubmitHandler = (query) => {
+
+    if (query === searchQuery) {
       return alert('введите новый запрос')
     } 
-    
-    this.setState(() => ({
-      queryResult: [],
-      searchQuery: query,
-      page: 1
-    }))
+
+    setQuery(query);
+    setResult([]);
+    setPage(1);
+
   };
 
-  handleModalImg = (largeImgUrl) => {
-    this.setState({ isModal: true, modalImg: largeImgUrl});
-  }
-
-
-  onBtnHandler = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }), this.FetchQuery)
-    
-  }
-
-  handleModalClose = () => {
-    this.setState({ isModal: false, modalImg: '' });
+  const handleModalImg = (largeImgUrl) => {
+    setModal(true);
+    setModalImg(largeImgUrl);
   };
-  
-  render() {
-    const {
-      queryResult,
-      totalHits,
-      isLoading,
-      isModal,
-      modalImg,
-    } = this.state
-    return (
-      <div className={css.gallery}>
-        {isModal && <Modal
-          img={modalImg}
-          onClose={this.handleModalClose}
-        />}
-        <header className={css.header}>
-          <Searchbar onSubmit={this.onSubmitHandler} />
-        </header>
 
-        {this.state.queryResult.length > 0 &&
-          <div className={css.wrapper}>
-            <ImageGallery>
-              <ImageGalleryItem
-                gallery={this.state.queryResult}
-                onClick={this.handleModalImg} />
-            </ImageGallery>
-          </div>
-        }
-        {isLoading && <Spid />}
-        {totalHits > queryResult.length > 0 && !isLoading && (<Button
-          onClick={this.onBtnHandler}
-        />)
-        }
-      </div>
-    );
+
+  const onBtnHandler = () => {
+    setPage(prevPage => prevPage + 1);
+    FetchQuery();
   };
+
+  const handleModalClose = () => {
+    setModal(false);
+    setModalImg('')
+  };
+
+  return (
+    <div className={css.gallery}>
+      {isModal && <Modal
+        img={modalImg}
+        onClose={handleModalClose}
+      />}
+      <header className={css.header}>
+        <Searchbar onSubmit={onSubmitHandler} />
+      </header>
+
+      {queryResult.length > 0 &&
+        <div className={css.wrapper}>
+          <ImageGallery>
+            <ImageGalleryItem
+              gallery={queryResult}
+              onClick={handleModalImg} />
+          </ImageGallery>
+        </div>
+      }
+
+      {isLoading && <Spid />}
+      {totalHits > queryResult.length > 0 && !isLoading && (<Button
+        onClick={onBtnHandler}
+      />)
+      }
+    </div>
+  );
 };
-
 
 export default App;
