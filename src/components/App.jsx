@@ -8,15 +8,15 @@ import Modal from './Modal/Modal.js'
 // ========================================================
 import Searchbar from './Searchbar/Searchbar.js';
 
-import FetchQuery from './Api/SearchApi.js'
+import FetchQuery from '../Api/SearchApi.js';
 
 // ========================================================
 
-import ImageGallery from './ImageGallery/ImageGallery.js'
+import ImageGallery from './ImageGallery/ImageGallery.js';
 
-import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem.js'
+import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem.js';
 
-import Button from './Button/Button.js'
+import Button from './Button/Button.js';
 
 
 //==========================================================
